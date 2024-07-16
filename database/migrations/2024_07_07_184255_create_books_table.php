@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->integer('ISBN');
-            $table->integer('EAN');
+            $table->bigInteger('ISBN');
+            $table->bigInteger('EAN');
             $table->integer('ISMN')->nullable(); //dit is voor bladmuziek, zou misschien niet in deze tabel moeten?
             $table->string('title');
             $table->string('subtitle');
