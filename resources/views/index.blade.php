@@ -6,6 +6,7 @@
     <p>{{ $book->title}}</p>
 @endforeach
 <h4 class="font-light">test</h4>
+<h4 class="font-light">test2</h4>
 <form action="{{ route('updateroute') }}">
     @csrf
     <label for="ISBN" class="block text-sm font-medium text-gray-700">ISBN:</label>
