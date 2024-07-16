@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('ISMN')->nullable(); //dit is voor bladmuziek, zou misschien niet in deze tabel moeten?
             $table->string('title');
             $table->string('subtitle');
-            $table->integer('set_ISBN');
+            $table->bigInteger('set_ISBN');
             $table->date('publication_date');
             $table->date('first_publication_date');
             $table->string('author');
