@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('books', function (Blueprint $table) {
+            $table->id();
             $table->integer('ISBN');
             $table->integer('EAN');
             $table->integer('ISMN')->nullable(); //dit is voor bladmuziek, zou misschien niet in deze tabel moeten?
