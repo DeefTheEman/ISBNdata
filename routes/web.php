@@ -3,10 +3,10 @@
 use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('index');
-// });
+Route::get('/', function () {
+    return view('index');
+});
 
-Route::get('/', [BookController::class, 'controllerFunc']);
-// Route::get('/update', 'BookController@update')->name('updateroute');
-Route::get('/update', [BookController::class, 'update'])->name('updateroute');
+Route::get('/getBook', [BookController::class, 'getBook'])->name('getbook');
+Route::get('/editBook', [BookController::class, 'editBook'])->name('editbook');
+Route::get('/removeErr', [BookController::class, 'removeErr'])->name('removeErr');
