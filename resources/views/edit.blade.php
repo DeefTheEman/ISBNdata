@@ -34,6 +34,8 @@
                 // Display values in json format with only commmas. Ints and floats are checked so they do not get interpretted as json
                 $fieldValue = $book->$field;
                 $json = json_decode($fieldValue);
+                error_log($field);
+                error_log($fieldValue);
                 if (!(is_int($fieldValue) or is_float($fieldValue)) && $json && json_last_error() == JSON_ERROR_NONE) {
                     $fieldValue = implode(', ', $json);
                 }
