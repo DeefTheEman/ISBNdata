@@ -1,8 +1,14 @@
 @extends('layout')
 @section('content')
-<div class="flex flex-col">
+<script>
+    function setStartTime() {
+        startTime = new Date().getTime();
+        document.getElementById('startTime').value = new Date().getTime();
+        console.error(startTime);
+    }
+</script>
 
-
+{{-- <div class="flex flex-col"> --}}
 <div class="flex justify-center w-full">
     <form class="my-5 w-1/2 lg:w-1/3" action="{{ route('search') }}">
         @csrf
@@ -14,14 +20,6 @@
         </div>
     </form>
 </div>
-<script>
-    function setStartTime() {
-        startTime = new Date().getTime();
-        document.getElementById('startTime').value = new Date().getTime();
-        console.error(startTime);
-    }
-</script>
-
 
 @if (session('search'))
 @php
@@ -32,7 +30,7 @@
     $timeTaken = session('search')[1];
 @endphp
 
-<div class="flex flex-col flex-grow mx-10 mb-10">
+<div class="flex flex-col mx-10 mb-10">
     <p class="text-gray-500 px-2">Showing {{ $showed_rows}} of {{ $rowsfound }} total rows (Search time: {{ $timeTaken }} s)</p>
     <div class="px-1">
         <div class="flex flex-row py-1 border-b border-black font-bold">
@@ -64,5 +62,5 @@
 </div>
 @endif
 
-</div>
+{{-- </div> --}}
 @endsection

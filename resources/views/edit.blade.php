@@ -10,6 +10,8 @@ function insertText(source) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    // SCROLLING
+    // this handles the previous edit data, depending on which index we are on
     const bookdata = @json($bookdata);
     const edits = @json($edits);
     const fields = @json($fields);
@@ -85,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initial display
     displayOriginal();
-    if (currentIndex) {
+    if (currentIndex > 1) {
         displayEntry(currentIndex, true);
         nextbtn = document.getElementById('next_btn');
         nextbtn.classList.add('text-gray-500', 'cursor-default')
@@ -104,6 +106,37 @@ document.addEventListener('DOMContentLoaded', function () {
         pageIndex = document.getElementById('currentPage');
         pageIndex.classList.add('hidden');
     }
+
+
+    // SCROLLING BEHAVIOUR INPUT
+    const textareas = document.querySelectorAll('.scalable-textarea');
+    
+    textareas.forEach(textarea => {
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            if (this.scrollHeight > this.clientHeight) {
+                this.style.height = Math.min(this.scrollHeight, 240) + 'px'; // 240px is 15rem
+            }
+        });
+        
+        // Trigger the input event to set the initial height
+        textarea.dispatchEvent(new Event('input'));
+    });
+    
+    // SUBMITTING
+    // This is for ensuring at least one checkbox has been checked when the form is submitted
+    const form = document.getElementById('input_form');
+    const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+
+    form.addEventListener('submit', function(event) {
+        const isChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+        if (!isChecked) {
+            event.preventDefault();
+            
+        }
+    });
+
 });
 
 function toggleSelectAll(source) {
@@ -113,26 +146,10 @@ function toggleSelectAll(source) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const textareas = document.querySelectorAll('.scalable-textarea');
-
-    textareas.forEach(textarea => {
-        textarea.addEventListener('input', function() {
-            this.style.height = 'auto';
-            if (this.scrollHeight > this.clientHeight) {
-                this.style.height = Math.min(this.scrollHeight, 240) + 'px'; // 240px is 15rem
-            }
-        });
-
-        // Trigger the input event to set the initial height
-        textarea.dispatchEvent(new Event('input'));
-    });
-});
-
 </script>
 <div class="flex flex-col items-center">
 
-<form class="w-2/3" action="{{ route('editbook') }}">
+<form id="input_form" class="w-2/3" action="{{ route('editbook') }}">
     <div class="w-full mt-3 flex flex-row">
         <h1 class="w-full flex-grow text-2xl pl-1">Change book</h1>
         {{-- <button type="button" id="backToIndex" data-route="{{ route('back') }}" class="bg-blue-500 text-white px-4 py-2 mr-3 rounded">Back</button> --}}
@@ -210,4 +227,5 @@ document.addEventListener('DOMContentLoaded', function() {
 </form>
 
 </div>
+<div class="h-[10rem] w-full bottom-0"></div>
 @endsection
