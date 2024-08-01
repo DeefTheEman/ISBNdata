@@ -12,19 +12,26 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('edits', function (Blueprint $table) {
+            // $table->id();
+            // $table->bigInteger('book_id');
+            // $table->integer('version');
+            // $table->string('maintitle')->nullable();
+            // $table->string('subtitle')->nullable();
+            // $table->string('collectiontitle')->nullable();
+            // $table->string('author')->nullable();
+            // $table->string('publisher')->nullable();
+            // $table->string('language')->nullable();
+            // $table->integer('pagecount')->nullable();
+            // $table->string('keywords')->nullable(); // Datatype can still be changed
+            // $table->integer('nurcode')->nullable();
+            // $table->text('shortdescription')->nullable();
+            // $table->timestamps();
             $table->id();
             $table->bigInteger('book_id');
             $table->integer('version');
-            $table->string('maintitle')->nullable();
-            $table->string('subtitle')->nullable();
-            $table->string('collectiontitle')->nullable();
-            $table->string('author')->nullable();
-            $table->string('publisher')->nullable();
-            $table->string('language')->nullable();
-            $table->integer('pagecount')->nullable();
-            $table->string('keywords')->nullable(); // Datatype can still be changed
-            $table->integer('nurcode')->nullable();
-            $table->text('shortdescription')->nullable();
+            $table->string('field');
+            $table->text('value');
+            $table->boolean('archived');
             $table->timestamps();
         });
     }

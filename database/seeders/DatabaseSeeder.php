@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Edit;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -21,6 +22,43 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // $this->call(BookSeeder::class);        
+        // $this->call(BookSeeder::class);
+        DB::table('edits')->insert([
+            [
+                'book_id' => 9789000306244,
+                'version' => 1,
+                'field' => 'maintitle',
+                'value' => 'test 1',
+                'archived' => 0,
+            ],
+            [
+                'book_id' => 9789000306244,
+                'version' => 2,
+                'field' => 'maintitle',
+                'value' => 'test 2',
+                'archived' => 0,
+            ],
+            [
+                'book_id' => 9789000306244,
+                'version' => 1,
+                'field' => 'pagecount',
+                'value' => '2',
+                'archived' => 0,
+            ],
+            [
+                'book_id' => 9789000306244,
+                'version' => 3,
+                'field' => 'pagecount',
+                'value' => '500',
+                'archived' => 0,
+            ]
+        //     $table->id();
+        //     $table->bigInteger('book_id');
+        //     $table->integer('version');
+        //     $table->string('field');
+        //     $table->text('value');
+        //     $table->boolean('archived');
+        //     $table->timestamps();
+        ]);
     }
 }
