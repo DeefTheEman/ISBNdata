@@ -173,7 +173,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('submitbutton').addEventListener('click', function () {
-        document.getElementById('editBookForm').submit();
+        if (allowSubmit) {
+            document.getElementById('editBookForm').submit();
+        }
     });
     
 });
