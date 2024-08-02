@@ -13,25 +13,18 @@ class Edit extends Model
     protected $fillable = [
         'book_id',
         'version',
-        'maintitle',
-        'subtitle',
-        'collectiontitle',
-        'author',
-        'publisher',
-        'language',
-        'pagecount',
-        'keywords',
-        'nurcode',
-        'shortdescription',
+        'field',
+        'value',
+        'archived'
     ];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
+    // public function __construct(array $attributes = [])
+    // {
+    //     parent::__construct($attributes);
 
-        // Initialize all attributes to null
-        $this->attributes = array_fill_keys($this->getFillable(), null);
-    }
+    //     // Initialize all attributes to null
+    //     $this->attributes = array_fill_keys($this->getFillable(), null);
+    // }
 
     public function getFields() {
         //Outputs all possible book fields, and a boolean depending on whether its an array

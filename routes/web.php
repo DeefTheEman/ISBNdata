@@ -25,6 +25,9 @@ Route::middleware('checkKey')->group(function (){
     Route::get('/getBook', [EditController::class, 'getBook'])->name('getbook');    
     Route::get('/editBook', [EditController::class, 'editBook'])->name('editbook');
     Route::get('/getSearch', [EditController::class, 'getSearch'])->name('getSearch');
+    Route::get('/back', function () {
+        redirect()->back()->withInput();
+    })->name('back');
 });
 
 // Route::get('/back', function () {

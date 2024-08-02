@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
                 'version' => 1,
                 'field' => 'maintitle',
                 'value' => 'test 1',
-                'archived' => 0,
+                'archived' => 1,
             ],
             [
                 'book_id' => 9789000306244,
@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
                 'version' => 1,
                 'field' => 'pagecount',
                 'value' => '2',
-                'archived' => 0,
+                'archived' => 1,
             ],
             [
                 'book_id' => 9789000306244,

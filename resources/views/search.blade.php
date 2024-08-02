@@ -26,7 +26,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     //Pass start time data to form
-    document.getElementById('searchform').addEventListener('submit', measureTime());
+    document.getElementById('searchButton').addEventListener('click', function () {
+        measureTime();
+        document.getElementById('searchform').submit();
+    });
+    // document.getElementById('searchform').addEventListener('submit', measureTime());
 
     //Only add listeners when a search has been done
     const searchresult = @json(session('searchresults'));
@@ -91,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <input type="text" id="search" name="searchquery" value="{{ old('searchquery') }}" class="flex-grow block w-full p-2 mr-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-500 sm:text-sm">
             <input type="hidden" id="startTime" name="startTime">
             <input type="hidden" id="indexInput" name="pageIndex" value="1">
-            <button type="submit" id="searchButton" class="bg-blue-500 text-white px-4 py-2 rounded">Search</button>
+            <button type="button" id="searchButton" class="bg-blue-500 text-white px-4 py-2 rounded">Search</button>
         </div>
     </form>
 </div>

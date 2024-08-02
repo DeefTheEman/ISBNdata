@@ -98,32 +98,74 @@ class EditController extends Controller
         if (!$book_id) {
             return redirect()->back()->with('alert', "Could not retrieve book ID");
         }
-        // return redirect()->back()->with('alert', 'Testttt');
-
+        
         $old_edits = Edit::where('book_id', $book_id)->get();
-        $old_edit = $old_edits->sortByDesc('version')->first();
-        if ($old_edit === null) {
-            $edit = new Edit();
-            $edit->book_id = $book_id;
-            $edit->version = 1;
-        }
-        else {
-            $newEdit = $old_edit->toArray();
-            $newEdit["version"] += 1;
-            $edit = Edit::create($newEdit);
+        $highestIndex = 0;
+        foreach ($old_edits as $edit) {
+            $highestIndex = $edit->version > $highestIndex ? $edit->version : $highestIndex;
         }
 
-        //Book ID needs to be fillable to be able to create it, but should not be changed, hence why it is skipped
-        $fields = array_slice($edit->getFillable(), 2); 
-        foreach ($fields as $field) {
-            if ($request->input("$field-check")) {
-                $newval = $request->input("new-$field");
-                if ($edit->getFieldType($field) == 'json') {
-                    $newval = json_decode($newval);
+        $tempEdit = new Edit();
+        $fields = $tempEdit->getFields();
+        foreach ($fields as $field => $type) {
+            if ($request->input("{$field}_editted")) {
+                $old_field_edits = Edit::where('book_id', $book_id)->where('field', $field)->get();
+                foreach ($old_field_edits as $old_field) {
+                    $old_field->archived = true;
+                    $old_field->save();
                 }
-                $edit->$field = $newval;
+                
+                $newValue = $request->input("{$field}_value");
+                if ($newValue) {
+                    $newEdit = Edit::create([
+                        'book_id' => $book_id,
+                        'version' => $highestIndex + 1,
+                        'field' => $field,
+                        'value' => $newValue,
+                        'archived' => false,
+                    ]);
+                    return redirect()->route('index');
+                    // $newEdit->save();
+                } else {
+                    return redirect()->back()->withInput()->with('alert', 'Unable to retrieve field value');
+                }
+                
             }
         }
-        return redirect()->route('index');
+
     }
+    
+    // public function editBook(Request $request) {
+    //     $book_id = $request->input('book_id');
+    //     if (!$book_id) {
+    //         return redirect()->back()->with('alert', "Could not retrieve book ID");
+    //     }
+    //     // return redirect()->back()->with('alert', 'Testttt');
+
+    //     $old_edits = Edit::where('book_id', $book_id)->get();
+    //     $old_edit = $old_edits->sortByDesc('version')->first();
+    //     if ($old_edit === null) {
+    //         $edit = new Edit();
+    //         $edit->book_id = $book_id;
+    //         $edit->version = 1;
+    //     }
+    //     else {
+    //         $newEdit = $old_edit->toArray();
+    //         $newEdit["version"] += 1;
+    //         $edit = Edit::create($newEdit);
+    //     }
+
+    //     //Book ID needs to be fillable to be able to create it, but should not be changed, hence why it is skipped
+    //     $fields = array_slice($edit->getFillable(), 2); 
+    //     foreach ($fields as $field) {
+    //         if ($request->input("$field-check")) {
+    //             $newval = $request->input("new-$field");
+    //             if ($edit->getFieldType($field) == 'json') {
+    //                 $newval = json_decode($newval);
+    //             }
+    //             $edit->$field = $newval;
+    //         }
+    //     }
+    //     return redirect()->route('index');
+    // }
 }
