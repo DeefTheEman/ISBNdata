@@ -10,8 +10,7 @@ const fields = @json($fields);
 const lastIndex = edits.length ? edits.sort((a, b) => b.version - a.version)[0].version : 0;
 console.log(lastIndex);
 let currentIndex = lastIndex; //Initalize index number
-let allowScrolling = true;
-let allowReset = false;
+let allowSubmit = false;
 
 // console.log(lastIndex);
 
@@ -99,28 +98,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     first_version.addEventListener('click', function () {
-        if (!(currentIndex == 0) && allowScrolling) {
+        if (!(currentIndex == 0) && !allowSubmit) {
             currentIndex = 0;
             displayData(currentIndex);
         }
     });
 
     prev_version.addEventListener('click', function () {
-        if (!(currentIndex == 0) && allowScrolling) {
+        if (!(currentIndex == 0) && !allowSubmit) {
             currentIndex--;
             displayData(currentIndex)
         }
     });
 
     next_version.addEventListener('click', function () {
-        if (!(currentIndex == lastIndex) && allowScrolling) {
+        if (!(currentIndex == lastIndex) && !allowSubmit) {
             currentIndex++;
             displayData(currentIndex);
         }
     });
 
     last_version.addEventListener('click', function () {
-        if (!(currentIndex == lastIndex) && allowScrolling) {
+        if (!(currentIndex == lastIndex) && !allowSubmit) {
             currentIndex = lastIndex;
             displayData(currentIndex);
         }
@@ -133,11 +132,14 @@ document.addEventListener('DOMContentLoaded', function () {
     function allowButton(buttonID, allowed) {
         button = document.getElementById(buttonID);
         if (allowed) {
-            allowReset = true;
+            allowSubmit = true;
             button.classList.add('bg-blue-500');
             button.classList.remove('bg-gray-500', 'cursor-default');
         } else {
-            allowReset = false;
+            allowSubmit = false;
+            for (const field in fields) {
+                document.getElementById(`${field}_editted`).value = false;
+            }
             button.classList.remove('bg-blue-500');
             button.classList.add('bg-gray-500', 'cursor-default');
         }
@@ -148,20 +150,20 @@ document.addEventListener('DOMContentLoaded', function () {
         fieldElement = document.getElementById(`${field}_input`);
         fieldElement.addEventListener('input', function () {
             document.getElementById(`${field}_editted`).value = true;
-            allowScrolling = false;
             disableLeft();
             disableRight();
             this.classList.remove('border', 'focus:border-indigo-500');
             this.classList.add('ring-2', 'ring-red-500');
             allowButton('resetallbutton', true);
+            allowButton('submitbutton', true);
         });
     }
 
     document.getElementById('resetallbutton').addEventListener('click', function () {
-        if (allowReset) {
+        if (allowSubmit) {
             displayData(currentIndex);
-            allowScrolling = true
             allowButton('resetallbutton', false);
+            allowButton('submitbutton', false);
             for (const field in fields) {
                 fieldElement = document.getElementById(`${field}_input`);
                 fieldElement.classList.add('border', 'focus:border-indigo-500');
@@ -207,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <i class="fa fa-angle-double-right fa-lg mx-2"></i>
             </button>
         </div>
-        <button type="button" id="submitbutton" class="bg-blue-500 text-white px-4 py-2 rounded">Sumbit</button>
+        <button type="button" id="submitbutton" class="bg-gray-500 cursor-default text-white px-4 py-2 rounded">Submit</button>
     </div>
     <form id="editBookForm" action="{{ route('editbook') }}" class="flex flex-wrap w-full">
         <input type="hidden" name="book_id" value={{ $bookdata['id'] }}>   
