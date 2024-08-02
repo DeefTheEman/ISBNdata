@@ -114,7 +114,7 @@ class EditController extends Controller
                     $old_field->archived = true;
                     $old_field->save();
                 }
-                
+
                 $newValue = $request->input("{$field}_value");
                 if ($newValue) {
                     $newEdit = Edit::create([
@@ -124,7 +124,6 @@ class EditController extends Controller
                         'value' => $newValue,
                         'archived' => false,
                     ]);
-                    return redirect()->route('index');
                     // $newEdit->save();
                 } else {
                     return redirect()->back()->withInput()->with('alert', 'Unable to retrieve field value');
@@ -132,7 +131,7 @@ class EditController extends Controller
                 
             }
         }
-
+        return redirect()->route('index');
     }
     
     // public function editBook(Request $request) {

@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
             disableLeft();
             console.log('disabled left');
         }
-        if (currentIndex == lastIndex || lastIndex == 0) {
+        if (currentIndex == lastIndex) {
             disableRight();
             console.log('disabled right');
         }

@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
             prev_search.classList.add('text-gray-500', 'cursor-default');
             prev_search.classList.remove('hover:text-blue-500')
         }
-        else if (currentIndex == lastIndex) {
+        if (currentIndex == lastIndex) {
             next_search.classList.add('text-gray-500', 'cursor-default');
             next_search.classList.remove('hover:text-blue-500')
             last_search.classList.add('text-gray-500', 'cursor-default');
